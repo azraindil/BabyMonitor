@@ -31,7 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
-
+    private long backPressedTime;
+    private Toast backToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(),
                         RegisterActivity.class);
                 startActivity(i);
+                finish();
             }
 
         });
@@ -187,5 +189,17 @@ public class LoginActivity extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+
+        backPressedTime = System.currentTimeMillis();
     }
 }
