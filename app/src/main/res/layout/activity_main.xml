@@ -19,45 +19,53 @@
 
            <Button
                android:id="@+id/btnLogout"
+               android:background="#EC8EB2"
                android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:layout_marginTop="40dip"
+               android:textColor="#53514D"
                android:text="@string/btn_logout"
                android:textAllCaps="false"
                android:textSize="15dp" />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
+                android:gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:text="@string/welcome"
+                android:textColor="#53514D"
                 android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:textColor="#53514D"
                 android:textSize="24dp" />
 
             <TextView
                 android:id="@+id/email"
-                android:layout_width="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:textColor="#53514D"
                 android:layout_height="wrap_content"
                 android:textSize="13dp" />
            <Button
-               android:layout_width="wrap_content"
+               android:layout_width="fill_parent"
                android:layout_height="wrap_content"
+               android:background="#EC8EB2"
                android:id="@+id/btnCamera"
+               android:textColor="#53514D"
+               android:layout_marginBottom="20dp"
                android:text="View Camera"/>
            <Button
                android:layout_height="wrap_content"
-               android:layout_width="wrap_content"
+               android:layout_width="fill_parent"
+               android:background="#EC8EB2"
+               android:textColor="#53514D"
                android:id="@+id/btnLullaby"
                android:text="Play Lullaby"/>
-           <Button
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/btnStop"
-               android:text="Stop Lullaby"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

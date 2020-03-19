@@ -19,7 +19,7 @@ import helper.SessionManager;
 public class MainActivity extends AppCompatActivity {
     private TextView txtName;
     private TextView txtEmail;
-    private Button btnLogout, btnCamera, btnLullaby, btnStop;
+    private Button btnLogout, btnCamera, btnLullaby;
 
     private SQLiteHandler db;
     private SessionManager session;
@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnCamera = (Button) findViewById(R.id.btnCamera);
         btnLullaby = (Button) findViewById(R.id.btnLullaby);
-        btnStop = (Button) findViewById(R.id.btnStop);
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -75,35 +74,9 @@ public class MainActivity extends AppCompatActivity {
         btnLullaby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AsyncTask<Integer, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Integer... params) {
-                try {
-                    SShCommandSend.executeRemoteCommand("pi", "makova94", AppConfig.IP_RPI, 22, "omxplayer --no-keys -o local Kołysanka.mp3&");
-                }
-                catch (Exception e){
-                    Toast.makeText(getApplicationContext(),"Error: "+ e.getMessage(),Toast.LENGTH_LONG).show();
-                }
-                        return null;
-                    }
-                }.execute(1);
-            }
-        });
-        btnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AsyncTask<Integer, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Integer... params) {
-                try {
-                    SShCommandSend.executeRemoteCommand("pi", "makova94", AppConfig.IP_RPI, 22, "killall omxplayer.bin");
-                }
-                catch (Exception e){
-                    Toast.makeText(getApplicationContext(),"Error: "+ e.getMessage(),Toast.LENGTH_LONG).show();
-                }
-                return null;
-            }
-        }.execute(1);
+                Intent i = new Intent(getApplicationContext(),
+                        LullabyActivity.class);
+                startActivity(i);
             }
         });
     }

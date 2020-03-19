@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:background="#EC8EB2"
+            android:textColor="#53514D"
             android:text="@string/btn_register" />
 
         <!-- Link to Login Screen -->
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dip"
             android:background="@null"
+            android:textColor="#53514D"
             android:text="@string/btn_link_to_login"
             android:textAllCaps="false"
             android:textSize="15dp" />
