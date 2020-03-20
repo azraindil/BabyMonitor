@@ -42,15 +42,25 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textColor="#53514D"
-                android:textSize="24dp" />
+                android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/email"
-                android:gravity="center_horizontal"
-                android:layout_width="fill_parent"
-                android:textColor="#53514D"
-                android:layout_height="wrap_content"
-                android:textSize="13dp" />
+           <TextView
+               android:id="@+id/textViewTemperature"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:text="Temperature: "
+               android:textColor="#53514D"
+               android:textSize="24dp"
+               android:layout_marginBottom="20dp"/>
+
+           <TextView
+               android:id="@+id/textViewHumidity"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:text="Humidity: "
+               android:textColor="#53514D"
+               android:textSize="24dp"
+               android:layout_marginBottom="20dp"/>
            <Button
                android:layout_width="fill_parent"
                android:layout_height="wrap_content"
