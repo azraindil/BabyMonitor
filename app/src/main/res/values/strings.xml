@@ -19,9 +19,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string-array name="lullaby">
-        <item>pierwsza</item>
-        <item>druga</item>
-        <item>trzecia</item>
-        <item>czwarta</item>
+        <item>Kołysanka</item>
+        <item>Iskiereczka</item>
+        <item>Był Sobie Król</item>
     </string-array>
 </resources>

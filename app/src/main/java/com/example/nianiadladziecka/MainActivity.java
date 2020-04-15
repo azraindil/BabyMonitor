@@ -18,7 +18,6 @@ import helper.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
     private TextView txtName;
-   // private TextView txtEmail;
     private Button btnLogout, btnCamera, btnLullaby;
 
     private SQLiteHandler db;
@@ -27,10 +26,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
+
         txtName = (TextView) findViewById(R.id.name);
-       // txtEmail = (TextView) findViewById(R.id.email);
+
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnCamera = (Button) findViewById(R.id.btnCamera);
         btnLullaby = (Button) findViewById(R.id.btnLullaby);
@@ -49,11 +50,9 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, String> user = db.getUserDetails();
 
         String name = user.get("name");
-       // String email = user.get("email");
 
         // Displaying the user details on the screen
         txtName.setText(name);
-      //  txtEmail.setText(email);
 
         // Logout button click event
         btnLogout.setOnClickListener(new View.OnClickListener() {
