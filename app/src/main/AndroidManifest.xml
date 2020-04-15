@@ -19,6 +19,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".CameraActivity"
             android:label="BabyMonitor"/>
+        <activity android:name=".LullabyActivity"
+            android:label="BabyMonitor"/>
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
