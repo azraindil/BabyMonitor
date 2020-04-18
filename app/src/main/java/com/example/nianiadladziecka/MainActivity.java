@@ -17,7 +17,7 @@ import helper.SQLiteHandler;
 import helper.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView txtName;
+    private TextView txtName, txtTemp, txtHumi;
     private Button btnLogout, btnCamera, btnLullaby;
 
     private SQLiteHandler db;
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         txtName = (TextView) findViewById(R.id.name);
+        txtHumi = (TextView) findViewById(R.id.textViewHumidity);
+        txtTemp = (TextView) findViewById(R.id.textViewTemperature);
 
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnCamera = (Button) findViewById(R.id.btnCamera);
@@ -53,6 +55,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Displaying the user details on the screen
         txtName.setText(name);
+
+        // Getting and displaying temperature and humidity
+        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... params) {
+                try {
+                    SShCommandSend.executeRemoteCommand("pi", "makova94", AppConfig.IP_RPI, 22, "./Adafruit_Python_DHT/examples/temperature.py 11 4");
+                }
+                catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"Error: "+ e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+                return null;
+            }
+        }.execute(1);
+        String temp = "";
+        String humi = "";
+        txtTemp.setText("Temperature: "+ temp);
+        txtHumi.setText("Humidity: "+ humi);
 
         // Logout button click event
         btnLogout.setOnClickListener(new View.OnClickListener() {

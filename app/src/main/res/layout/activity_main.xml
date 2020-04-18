@@ -52,7 +52,6 @@
                android:textColor="#53514D"
                android:textSize="24dp"
                android:layout_marginBottom="20dp"/>
-
            <TextView
                android:id="@+id/textViewHumidity"
                android:layout_width="fill_parent"
@@ -61,6 +60,7 @@
                android:textColor="#53514D"
                android:textSize="24dp"
                android:layout_marginBottom="20dp"/>
+
            <Button
                android:layout_width="fill_parent"
                android:layout_height="wrap_content"
