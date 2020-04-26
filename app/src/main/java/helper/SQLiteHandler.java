@@ -21,6 +21,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     // Login table name
     private static final String TABLE_USER = "user";
+    // Sensor table name
+    private static final String TABLE_SENSOR = "sensors";
 
     // Login Table Columns names
     private static final String KEY_ID = "id";
@@ -28,6 +30,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_UID = "uid";
     private static final String KEY_CREATED_AT = "created_at";
+    // Sensor table columns names
+    private static final String ID = "id";
+    private static final String TEMPERATURE = "temperature";
+    private static final String HUMIDITY = "humidity";
 
     public SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,7 +47,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + KEY_EMAIL + " TEXT UNIQUE," + KEY_UID + " TEXT,"
                 + KEY_CREATED_AT + " TEXT" + ")";
         db.execSQL(CREATE_LOGIN_TABLE);
-
+        String CREATE_SENSOR_TABLE = "CREATE TABLE " + TABLE_SENSOR + "("
+                + ID + " INTEGER PRIMARY KEY," + TEMPERATURE + " TEXT,"
+                + HUMIDITY + " TEXT" + ")";
+        db.execSQL(CREATE_SENSOR_TABLE);
         Log.d(TAG, "Database tables created");
     }
 
@@ -50,6 +59,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SENSOR);
 
         // Create tables again
         onCreate(db);
@@ -99,6 +109,25 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return user;
     }
 
+    public HashMap<String, String> getSensorDetails() {
+        HashMap<String, String> sensor = new HashMap<String, String>();
+        String selectQuery = "SELECT  * FROM " + TABLE_SENSOR;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            sensor.put("temperature", cursor.getString(1));
+            sensor.put("humidity", cursor.getString(2));
+            }
+        cursor.close();
+        db.close();
+        // return sensor data
+        Log.d(TAG, "Fetching user from Sqlite: " + sensor.toString());
+
+        return sensor;
+    }
     /**
      * Re crate database Delete all tables and create them again
      * */

@@ -56,21 +56,11 @@ public class MainActivity extends AppCompatActivity {
         // Displaying the user details on the screen
         txtName.setText(name);
 
-        // Getting and displaying temperature and humidity
-        new AsyncTask<Integer, Void, Void>() {
-            @Override
-            protected Void doInBackground(Integer... params) {
-                try {
-                    SShCommandSend.executeRemoteCommand("pi", "makova94", AppConfig.IP_RPI, 22, "./Adafruit_Python_DHT/examples/temperature.py 11 4");
-                }
-                catch (Exception e){
-                    Toast.makeText(getApplicationContext(),"Error: "+ e.getMessage(),Toast.LENGTH_LONG).show();
-                }
-                return null;
-            }
-        }.execute(1);
-        String temp = "";
-        String humi = "";
+        // Fetching and displaying temperature and humidity
+        HashMap<String,String> sensor = db.getSensorDetails();
+
+        String temp = sensor.get("temperature");
+        String humi = sensor.get("humidity");
         txtTemp.setText("Temperature: "+ temp);
         txtHumi.setText("Humidity: "+ humi);
 
