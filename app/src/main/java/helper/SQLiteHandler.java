@@ -22,7 +22,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // Login table name
     private static final String TABLE_USER = "user";
     // Sensor table name
-    private static final String TABLE_SENSOR = "sensors";
+    private static final String TABLE_SENSOR = "Sensors";
 
     // Login Table Columns names
     private static final String KEY_ID = "id";
@@ -31,7 +31,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final String KEY_UID = "uid";
     private static final String KEY_CREATED_AT = "created_at";
     // Sensor table columns names
-    private static final String ID = "id";
+    private static final String ID = "iduser";
     private static final String TEMPERATURE = "temperature";
     private static final String HUMIDITY = "humidity";
 
@@ -109,6 +109,21 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return user;
     }
 
+    public void addSensor(String id, String temperature, String humidity) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ID, id);
+        values.put(TEMPERATURE, temperature);
+        values.put(HUMIDITY, humidity);
+
+        // Inserting Row
+        long idS = db.insert(TABLE_SENSOR, null, values);
+        db.close(); // Closing database connection
+
+        Log.d(TAG, "New data inserted into sqlite: " + idS);
+    }
+
     public HashMap<String, String> getSensorDetails() {
         HashMap<String, String> sensor = new HashMap<String, String>();
         String selectQuery = "SELECT  * FROM " + TABLE_SENSOR;
@@ -124,7 +139,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         // return sensor data
-        Log.d(TAG, "Fetching user from Sqlite: " + sensor.toString());
+        Log.d(TAG, "Fetching sensor from Sqlite: " + sensor.toString());
 
         return sensor;
     }
@@ -138,6 +153,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
 
         Log.d(TAG, "Deleted all user info from sqlite");
+    }
+    public void deleteSensor(){
+        SQLiteDatabase db =this.getWritableDatabase();
+        db.delete(TABLE_SENSOR,null,null);
+        db.close();
+        Log.d(TAG, "Deleted sensor data");
     }
 
 }

@@ -33,7 +33,7 @@ public class LullabyActivity extends AppCompatActivity implements AdapterView.On
                     @Override
                     protected Void doInBackground(Integer... params) {
                         try {
-                            SShCommandSend.executeRemoteCommand("pi", "makova94", AppConfig.IP_RPI, 22, "omxplayer --no-keys -o local "+ spiLullaby.getSelectedItem().toString()+".mp3&");
+                            SShCommandSend.executeRemoteCommand("pi", "raspberry", AppConfig.IP_RPI, 22, "omxplayer --no-keys -o local "+ spiLullaby.getSelectedItem().toString()+".mp3&");
                         }
                         catch (Exception e){
                             Toast.makeText(getApplicationContext(),"Error: "+ e.getMessage(),Toast.LENGTH_LONG).show();
@@ -50,7 +50,7 @@ public class LullabyActivity extends AppCompatActivity implements AdapterView.On
                     @Override
                     protected Void doInBackground(Integer... params) {
                         try {
-                            SShCommandSend.executeRemoteCommand("pi", "makova94", AppConfig.IP_RPI, 22, "killall omxplayer.bin");
+                            SShCommandSend.executeRemoteCommand("pi", "raspberry", AppConfig.IP_RPI, 22, "killall omxplayer.bin");
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }

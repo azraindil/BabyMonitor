@@ -2,6 +2,7 @@ package com.example.nianiadladziecka;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-
+        checkSensor("1");
         setContentView(R.layout.activity_login);
 
         etPassword = findViewById(R.id.etPassword);
@@ -75,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     // login user
                     checkLogin(username, password);
+                    checkSensor("1");
 
                 } else {
 
@@ -95,10 +97,73 @@ public class LoginActivity extends AppCompatActivity {
 
         });
     }
+     // function to verify login details in mysql db
 
-    /**
-     * function to verify login details in mysql db
-     */
+    private void checkSensor(final String iduser){
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_SENSOR, new Response.Listener<String>(){
+
+            public void onResponse(String response){
+                new AsyncTask<Integer, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Integer... params) {
+                        try {
+                            SShCommandSend.executeRemoteCommand("pi", "raspberry", AppConfig.IP_RPI, 22, "python Adafruit_Python_DHT/examples/temperature.py 11 4");
+                        }
+                        catch (Exception e){
+                            Toast.makeText(getApplicationContext(),"Error: "+ e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                        return null;
+                    }
+                }.execute(1);
+                Log.d(TAG, "Response: " + response.toString());
+                hideDialog();
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    // Check for error node in json
+                    if (!error) {
+                        JSONObject sensor = jObj.getJSONObject("sensor");
+                        String temperature = sensor.getString("temperature");
+                        String humidity = sensor.getString("humidity");
+
+                        // Inserting row in sensors table
+                        db.addSensor("1", temperature, humidity);
+
+                    } else {
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(), "error: " +
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                hideDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to sensor url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("iduser", iduser);
+
+                return params;
+            }
+        };
+        // Adding request to request queue
+        MySingleton.getInstance(this).addToRequestQueue(strReq);
+    }
     private void checkLogin(final String email, final String password) {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
@@ -130,8 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
+                        String created_at = user.getString("created_at");
 
                         // Inserting row in users table
                         db.addUser(name, email, uid, created_at);
